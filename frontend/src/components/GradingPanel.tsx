@@ -10,8 +10,9 @@ interface StudentSubmission {
 }
 
 const initialSubmissions: StudentSubmission[] = [
-  { id: '1', studentName: 'Preduț Andreea', group: 'CEN 4.S2 B', submittedAt: 'Nov 24, 16:30', score: 10.0, feedback: 'Clean architecture and complete tests.' },
-  { id: '2', studentName: 'Dincă Alexia', group: 'CEN 4.S2 B', submittedAt: 'Nov 24, 15:10', score: 9.5, feedback: 'Well structured endpoints.' },
+  { id: '1', studentName: 'Elena Popescu', group: 'CEN 4.S2 B', submittedAt: 'Nov 24, 16:30', score: 10.0, feedback: 'Clean architecture and complete tests.' },
+  { id: '2', studentName: 'Radu Ionescu', group: 'CEN 4.S2 B', submittedAt: 'Nov 24, 15:10', score: 9.5, feedback: 'Well structured endpoints.' },
+  { id: '3', studentName: 'Maria Dumitrescu', group: 'CEN 4.S2 B', submittedAt: 'Nov 23, 19:40', score: null, feedback: '' },
 ];
 
 export function GradingPanel() {
