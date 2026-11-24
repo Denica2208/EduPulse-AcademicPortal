@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: edupulse-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: edupulse_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: SecretPassword123!
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: edupulse-backend-api
+    restart: always
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=edupulse_db;Username=postgres;Password=SecretPassword123!
+      - Jwt__Key=SuperSecretEduPulseKeyForJwtAuthentication2026!
+      - Jwt__Issuer=EduPulseAPI
+      - Jwt__Audience=EduPulseClient
+    ports:
+      - "5000:8080"
+    depends_on:
+      - db
+    volumes:
+      - uploads_data:/app/uploads
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: edupulse-frontend-client
+    restart: always
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
+  uploads_data:
