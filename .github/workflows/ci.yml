@@ -1,0 +1,53 @@
+name: Continuous Integration - EduPulse
+
+on:
+  push:
+    branches: [ "main", "develop" ]
+  pull_request:
+    branches: [ "main", "develop" ]
+
+jobs:
+  build-and-test-backend:
+    name: Build & Test Backend (ASP.NET Core 8)
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore ./backend/AcademicPortal.sln
+
+    - name: Build Solution
+      run: dotnet build ./backend/AcademicPortal.sln --no-restore --configuration Release
+
+    - name: Run xUnit Unit Tests
+      run: dotnet test ./backend/AcademicPortal.sln --no-build --configuration Release --verbosity normal
+
+  build-and-lint-frontend:
+    name: Type-Check & Build Frontend (React + TypeScript)
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install dependencies
+      working-directory: ./frontend
+      run: npm install
+
+    - name: TypeScript Compile Check
+      working-directory: ./frontend
+      run: npx tsc --noEmit
+
+    - name: Build Frontend Distribution
+      working-directory: ./frontend
+      run: npm run build
