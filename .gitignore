@@ -1,0 +1,21 @@
+# OS & Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.suo
+*.user
+
+# .NET / C#
+bin/
+obj/
+*.userprefs
+*.log
+uploads/
+
+# Node / React
+node_modules/
+dist/
+.env
+.env.local
+npm-debug.log*
